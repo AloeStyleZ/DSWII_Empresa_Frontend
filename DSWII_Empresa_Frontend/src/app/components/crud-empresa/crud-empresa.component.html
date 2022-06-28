@@ -6,10 +6,10 @@
 
         <div class="row" style="height: 80px">
             <div class="col-md-4">
-                <input [(ngModel)] = "filtro"  class="form-control"  id="id_txt_filtro" name="filtro" placeholder="Ingrese el nombre" type="text" maxlength="30" />
+                <input [(ngModel)] = "filtro"  class="form-control"  id="id_txt_filtro" name="filtro" placeholder="Ingrese el Filtro" type="text" maxlength="30" />
             </div>
             <div class="col-md-2">
-                <button type="button" class="btn btn-primary" id="id_btn_filtrar" style="width: 150px" (click)="consulta">Filtrar</button>
+                <button type="button" class="btn btn-primary" id="id_btn_filtrar" style="width: 150px" (click)="consulta()">Filtrar</button>
             </div>
             <div class="col-md-2">
                 <button  type="button" data-toggle='modal' data-target="#idModalRegistrar" class='btn btn-success' style="width: 150px">Registrar</button>
@@ -40,9 +40,9 @@
                                 <td>{{ aux.razonSocial }}</td>
                                 <td>{{ aux.gerente }}</td>
                                 <td>{{ aux.ruc }}</td>
-                                <td>{{ aux.ubigeo!.departamento}}- {{ aux.ubigeo!.provincia }} -{{ aux.ubigeo!.distrito }}</td>
+                                <td>{{ aux.ubigeo!.departamento }}- {{ aux.ubigeo!.provincia }} -{{ aux.ubigeo!.distrito }}</td>
                                 <td>{{ aux.pais!.nombre }}</td>
-                                <td><button type="button" style="width: 90px" class="btn btn-primary btn-sm" data-toggle='modal' data-target="#exampleModalEliminar">Activo</button></td>
+                                <td><button type="button" style="width: 90px" class="btn btn-primary btn-sm" data-toggle='modal' data-target="#exampleModalEliminar">Eliminar</button></td>
                                 <td><button type="button" style="width: 90px" class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#idModalActualizar">Editar</button></td>
                                 
                             </tr>
@@ -86,7 +86,7 @@
                                     
                                     <div class="col-lg-2">
                                         <label for="id_reg_dni">RUC</label>
-                                        <input  [(ngModel)]="empresa.ruc" t type="text" placeholder="Ingrese RUC" class="form-control" name="ruc" id="id_reg_ruc"  maxlength="8"/>
+                                        <input  [(ngModel)]="empresa.ruc" t type="text" placeholder="Ingrese RUC" class="form-control" name="ruc" id="id_reg_ruc"  maxlength="11"/>
                                             <div *ngIf="submitted && formsRegistra.controls['validaRuc'].errors" class="invalid">
                                                 <ul>
                                                     <li>El RUC es obligatorio</li>      
@@ -113,13 +113,13 @@
                                     
                                     <div class="col-lg-4">
                                         <label for="id_reg_departamento">Departamento</label>
-                                        <select [(ngModel)]="empresa.ubigeo!.departamento" (change)="cargaProvincia()"   id="id_reg_departamento" name="departamento" class="form-control">
-                                            <option value="-1"> [Seleccione] </option>
+                                        <select [(ngModel)]="empresa.ubigeo!.departamento" (change)="cargaProvincia()" class="form-control"  name="validaDepartamento"   #validaDepartamento="ngModel" required>
+                                            <option value=""> [Seleccione] </option>
                                             <option *ngFor="let aux of departamentos" value="{{ aux }}"> 
                                                         {{ aux }}
                                             </option>
                                         </select>
-                                        <div *ngIf="submitted && formsRegistra.controls['validaDepartamento'].errors" class="invalid">
+                                        <div *ngIf="validaDepartamento.invalid && (validaDepartamento.dirty || validaDepartamento.touched) " class="alert alert-danger">
                                             <ul>
                                                 <li> El Departamento es obligatorio</li>    
                                             </ul>
@@ -213,7 +213,7 @@
     
                                 <div class="col-lg-2">
                                     <label for="id_act_ruc">RUC</label>
-                                    <input type="text" placeholder="Ingrese DNI" class="form-control" name="ruc" id="id_act_ruc"  maxlength="8"/>
+                                    <input type="text" placeholder="Ingrese RUC" class="form-control" name="ruc" id="id_act_ruc"  maxlength="8"/>
                                 </div>
 
                                 <div class="col-lg-2">

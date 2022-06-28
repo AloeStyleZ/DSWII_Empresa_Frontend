@@ -4,8 +4,10 @@ import { Observable } from "rxjs";
 import {Empresa} from "../models/empresa.model";
 import { AppSettings } from '../app.settings';
 
-const baseUrl = 'http://localhost:8090/rest/rest/crudEmpresa';
+const baseUrl = 'http://localhost:8090/rest/crudEmpresa';
 const baseUrlEmpresa = AppSettings.API_ENDPOINT+ 'empresa';
+const baseUrlUtil = AppSettings.API_ENDPOINT+ 'util';
+const baseUrlEmpresaCrud = AppSettings.API_ENDPOINT+ '/crudEmpresa';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +16,7 @@ export class EmpresaService{
     constructor(private http:HttpClient){}
 
     listaEmpresa():Observable<Empresa[]>{
-        return this.http.get<Empresa[]>(baseUrl+"/listaEmpresa");
+        return this.http.get<Empresa[]>(baseUrlUtil+"/listaEmpresa");
     }
 
     listaEmpresaP(razonSocial:string, ruc:string, idUbigeo:number, idPais:number):Observable<any>{
@@ -28,11 +30,14 @@ export class EmpresaService{
     }
 
     registraEmpresa(aux : Empresa): Observable<any>{
-        return this.http.post("/registraEmpresa", aux);
+        return this.http.post(baseUrl+"/registraEmpresa", aux);
     }
 
     actualizaEmpresa(aux : Empresa): Observable<any>{
-        return this.http.put("/actualizaEmpresa", aux);
+        return this.http.put(baseUrl+"/actualizaEmpresa", aux);
     }
+    eliminaEmpresa(id : any): Observable<any>{
+        return this.http.delete(baseUrlEmpresaCrud + "/eliminaProveedor/"+ id);
+     } 
 
 }

@@ -1,0 +1,90 @@
+<div>
+    <form class="content" (ngSubmit)="insertado()">
+    <div class="submit-form" >
+  
+         <div class="row">
+            <div class="col-lg-12">
+                <h6>Registro de Empresa</h6>
+            </div>
+        </div>
+  
+        <div class="row" style="margin-top: 3%">
+                <div class="col-lg-9">
+                    <label for="razonsocial">RazonSocial</label>
+                    <input type="text" class="form-control" name="razonsocial" id="razonsocial" [(ngModel)] = "empresa.razonSocial" />
+                </div>
+            
+                <div class="col-lg-5">
+                    <label for="ruc">RUC</label>
+                    <input type="text" class="form-control" name="ruc" id="ruc" maxlength="11" [(ngModel)] = "empresa.ruc"   />
+                </div>
+         </div>
+  
+         <div class="col-lg-5">
+            <label for="gerente">Gerente</label>
+            <input type="text" class="form-control" name="gerente" id="gerente"  [(ngModel)] = "empresa.gerente"   />  
+        </div>
+ </div>
+
+        <div class="row" style="margin-top: 3%">
+
+            <div class="row" style="margin-top: 3%">
+
+                <div class="col-lg-4">
+                    <label for="departamento">Departamento</label>
+                    <select  id="departamento" name="departamento" class="form-control" (change)="cargaProvincia()" [(ngModel)] ="empresa.ubigeo!.departamento"  > 
+                        <option value="-1"> [Seleccione] </option>   
+                       <option *ngFor="let aux of departamentos" value="{{aux}}"  >
+                           {{aux}}
+                       </option>
+                    </select>
+                </div>
+    
+                <div class="col-lg-4">
+                    <label for="provincia">Provincia</label>
+                    <select  id="provincia" name="provincia" class="form-control" (change)="cargaDistrito()" [(ngModel)] ="empresa.ubigeo!.provincia"  >
+                        <option value="-1"> [Seleccione] </option>   
+                        <option *ngFor="let aux of provincias" value="{{aux}}"  >
+                            {{aux}}
+                        </option>
+                    </select>
+                </div>
+    
+                <div class="col-lg-4">
+                    <label for="distrito">Distrito</label>
+                    <select  id="distrito" name="distrito" class="form-control" [(ngModel)] ="empresa.ubigeo!.idUbigeo" > 
+                        <option value="-1"> [Seleccione] </option>   
+                        <option *ngFor="let aux of distritos" value="{{aux.idUbigeo}}"  >
+                            {{aux.distrito}}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-lg-4" style="margin-top: 2%">
+                    <label for="id_reg_pais">País</label>
+                    <select [(ngModel)]="empresa.pais!.idPais" id="id_reg_pais" name="pais" class="form-control" #validaPais="ngModel" required pattern="[0-9]{1,9}">
+                        <option value="-1"> [Seleccione] </option>   
+                        <option *ngFor="let aux of paises" value="{{ aux.idPais }}">
+                            {{ aux.nombre }}
+                        </option>
+                    </select>
+                   
+                </div>
+
+            </div>
+
+        </div>
+  
+        <div class="row" style="margin-top: 3%"> 
+                <div class="col-lg-12">
+                    <button class="btn btn-success"  >Enviar</button>
+                </div>
+        </div>
+  
+    
+    
+  
+     </form>
+  
+  
+    </div>

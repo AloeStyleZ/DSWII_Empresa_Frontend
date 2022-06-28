@@ -11,7 +11,7 @@
         <div class="row" style="margin-top: 2%">
                 <label for="rasocial" class="col-lg-0">Razon Social</label>
                 <div class="col-lg-2">
-                    <input type="text" class="form-control" name="rasocial" id="rasocial" [(ngModel)] = "razonSocial"  />
+                    <input type="text" class="form-control" name="rasocial" id="razonsocial" [(ngModel)] = "razonSocial"  />
                 </div>
                 <label for="ruc" class="col-lg-0">RUC</label>
                 <div class="col-lg-2">
@@ -30,8 +30,8 @@
 
          <div class="row" style="margin-top: 2%">
             <div class="col-lg-3">
-                <label for="pais">Pais</label>
-                <select  id="pais" name="pais" class="form-control" [(ngModel)] = "selPais"  >
+                <label for="paises">Pais</label>
+                <select  id="paises" name="paises" class="form-control" [(ngModel)] = "selPais"  >
                     <option value="-1"> [Seleccione] </option>   
                     <option *ngFor="let aux of paises" value="{{aux.idPais}}">
                         {{aux.nombre}}

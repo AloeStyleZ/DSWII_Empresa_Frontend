@@ -32,10 +32,13 @@ export class ConsultaEmpresaComponent implements OnInit{
     empresas: Empresa[] = [];
     paises: Pais[] = [];
 
-    constructor(private ubigeoService: UbigeoService,private empresaService:EmpresaService){
-        ubigeoService.listarDepartamento().subscribe(
+    constructor(private ubigeoService: UbigeoService,private empresaService:EmpresaService, private paisService: PaisService){
+        ubigeoService.listaDepartamentos().subscribe(
             (x) => this.departamentos = x
         );
+        this.paisService.listaPais().subscribe(
+            (x) => this.paises = x
+          ); 
     }
 
     cargaProvincia(){
@@ -57,13 +60,13 @@ export class ConsultaEmpresaComponent implements OnInit{
     }
 
     consultaEmpresa(){
-       /* this.empresaService.consultaEmpresa(this.raSocial, this.ruc, this.selDistrito, this.selPais).subscribe(
+       this.empresaService.listaEmpresaP(this.razonSocial, this.ruc, this.selDistrito, this.selPais).subscribe(
             (x) => {
-                this.empresas = x
+                this.empresas = x.lista;
                 alert(x.mensaje);
             }
 
-        )*/
+        )
     }
 
    

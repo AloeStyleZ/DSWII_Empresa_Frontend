@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Ubigeo } from '../models/ubigeo.model';
 
-const baseUrlUtil = 'http://localhost:8080/rest/util';
+const baseUrlUtil = 'http://localhost:8090/rest/util';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class UbigeoService {
   constructor(private http:HttpClient) { }
 
 
-  listarDepartamento(): Observable<string[]>{
+  listaDepartamentos(): Observable<string[]>{
     return this.http.get<string[]>(baseUrlUtil+"/listaDepartamentos");
   }
 
