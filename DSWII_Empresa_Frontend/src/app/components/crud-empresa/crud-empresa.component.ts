@@ -6,7 +6,7 @@ import {FormsModule} from "@angular/forms"
 import { EmpresaService } from "src/app/services/empresa.service";
 import { UbigeoService } from "src/app/services/ubigeo.service";
 import { PaisService } from "src/app/services/pais.service";
-
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector : 'app-consulta-empresa',
@@ -51,6 +51,17 @@ export class CrudEmpresaComponent implements OnInit{
           }
       };
     
+      formsRegistra = new FormGroup({
+        validaRazonSocial: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]{3,50}')]),
+        validaRuc: new FormControl('', [Validators.required,Validators.pattern('[0-9]{11}')]),
+        validaGerente: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]{3,30}')]),
+        validaDepartamento: new FormControl('', [Validators.min(1)]),
+        validaProvincia: new FormControl('', [Validators.min(1)]),
+        validaDistrito: new FormControl('', [Validators.min(1)]),
+        validaPais: new FormControl('', [Validators.min(1)]),
+      });
+
+      submitted = false;
 
     constructor(private empresaService:EmpresaService, private ubigeoService: UbigeoService, private paisService: PaisService){
        this.ubigeoService.listarDepartamento().subscribe(
@@ -86,7 +97,22 @@ export class CrudEmpresaComponent implements OnInit{
         )
     }
 
-   
+    registra(){
+        this.submitted = true;
+    
+          if (this.formsRegistra.invalid){
+            return;
+          }
+    
+        this.empresaService.registraEmpresa(this.empresa).subscribe(
+          (x) => {
+            this.submitted = false;
+            alert(x.mensaje);
+            this.consulta();
+        }
+        );
+      }
+
 
     ngOnInit(): void {
         
