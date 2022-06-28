@@ -11,6 +11,10 @@ const baseUrl = 'http://localhost:8090/rest/rest/crudEmpresa';
 export class EmpresaService{
     constructor(private http:HttpClient){}
 
+    listaEmpresa():Observable<Empresa[]>{
+        return this.http.get<Empresa[]>(baseUrl+"/listaEmpresa");
+    }
+
     consultaEmpresa(filtro : any): Observable<any>
     {
         return this.http.get(baseUrl + "/listaEmpresaPorNombreLike/" + filtro);
