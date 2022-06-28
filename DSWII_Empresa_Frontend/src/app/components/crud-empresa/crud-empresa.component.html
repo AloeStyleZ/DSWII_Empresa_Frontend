@@ -40,7 +40,7 @@
                                 <td>{{ aux.razonSocial }}</td>
                                 <td>{{ aux.gerente }}</td>
                                 <td>{{ aux.ruc }}</td>
-                                <td>{{ aux.ubigeo!.departamento}}</td>
+                                <td>{{ aux.ubigeo!.departamento}}- {{ aux.ubigeo!.provincia }} -{{ aux.ubigeo!.distrito }}</td>
                                 <td>{{ aux.pais!.nombre }}</td>
                                 <td><button type="button" style="width: 90px" class="btn btn-primary btn-sm" data-toggle='modal' data-target="#exampleModalEliminar">Activo</button></td>
                                 <td><button type="button" style="width: 90px" class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#idModalActualizar">Editar</button></td>
@@ -68,7 +68,7 @@
                 </div>
                 
                 <div class="modal-body">
-                    <form class="content" >
+                    <form class="content" (ngSubmit)="registra()" [formGroup]="formsRegistra">
                         <div class="submit-form">
                             
                                 <div  class="row">
@@ -76,12 +76,36 @@
                                     <div class="col-lg-10">
                                         <label for="id_reg_nombre">RazonSocial</label>
                                         <input [(ngModel)]="empresa.razonSocial" type="text" placeholder="Ingrese la razon social" class="form-control" name="razonSocial" id="id_reg_razonSocial" />
+                                        <div *ngIf="submitted && formsRegistra.controls['validaRazonSocial'].errors" class="invalid">
+                                            <ul>
+                                                <li>Razon social es obligatorio</li>    
+                                                <li>El campo razon social es de 3 a 50 caracteres</li>    
+                                            </ul>
+                                         </div> 
                                     </div>
                                     
                                     <div class="col-lg-2">
                                         <label for="id_reg_dni">RUC</label>
                                         <input  [(ngModel)]="empresa.ruc" t type="text" placeholder="Ingrese RUC" class="form-control" name="ruc" id="id_reg_ruc"  maxlength="8"/>
+                                            <div *ngIf="submitted && formsRegistra.controls['validaRuc'].errors" class="invalid">
+                                                <ul>
+                                                    <li>El RUC es obligatorio</li>      
+                                                    <li>El campo ruc tiene que tener 11 digitos</li>    
+                                                </ul>
+                                             </div> 
+                                         
                                     </div>
+                                    <div class="col-lg-11">
+                                        <label for="id_reg_gerente">Gerente</label>
+                                        <input [(ngModel)]="empresa.gerente" type="text" placeholder="Ingrese el gerente" class="form-control" name="gerente" id="id_reg_gerente" />
+                                        <div *ngIf="submitted && formsRegistra.controls['validaGerente'].errors" class="invalid">
+                                            <ul>
+                                                <li>Gerente es obligatorio</li>    
+                                                <li>El campo gerente es de 3 a 30 caracteres</li>    
+                                            </ul>
+                                         </div> 
+                                    </div>
+
                                 </div>
 
 
@@ -95,6 +119,11 @@
                                                         {{ aux }}
                                             </option>
                                         </select>
+                                        <div *ngIf="submitted && formsRegistra.controls['validaDepartamento'].errors" class="invalid">
+                                            <ul>
+                                                <li> El Departamento es obligatorio</li>    
+                                            </ul>
+                                         </div>
                                     </div>
 
                                     <div class="col-lg-4">
@@ -105,6 +134,11 @@
                                                         {{ aux }}
                                              </option>
                                         </select>
+                                        <div *ngIf="submitted && formsRegistra.controls['validaProvincia'].errors" class="invalid">
+                                            <ul>
+                                                <li> La Provincia es obligatoria</li>    
+                                            </ul>
+                                         </div>
                                     </div>
 
                                     <div class="col-lg-4">
@@ -115,6 +149,11 @@
                                                 {{ aux.distrito }}
                                              </option>
                                         </select>
+                                        <div *ngIf="submitted && formsRegistra.controls['validaDistrito'].errors" class="invalid">
+                                            <ul>
+                                                <li> El Distrito es obligatorio</li>    
+                                            </ul>
+                                         </div>
                                     </div>
                                 
                                     <div class="col-lg-4" style="margin-top: 2%">
@@ -125,7 +164,7 @@
                                                 {{ aux.nombre }}
                                             </option>
                                         </select>
-                                        <div *ngIf="validaPais.invalid && (validaPais.dirty || validaPais.touched)" class="alert alert-danger">
+                                        <div *ngIf="submitted && formsRegistra.controls['validaPais'].errors" class="alert alert-danger">
                                             El Pais es obligatorio                                         
                                         </div>
                                     </div>
