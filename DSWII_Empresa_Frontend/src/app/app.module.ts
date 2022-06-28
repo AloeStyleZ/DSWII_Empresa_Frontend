@@ -7,12 +7,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CrudEmpresaComponent } from './components/crud-empresa/crud-empresa.component';
 import { ConsultaEmpresaComponent } from './components/consulta-empresa/consulta-empresa.component';
+import { RegistraEmpresaComponent } from './components/registra-empresa/registra-empresa.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CrudEmpresaComponent,
-    ConsultaEmpresaComponent
+    ConsultaEmpresaComponent,
+    RegistraEmpresaComponent
   ],
 
   imports: [
