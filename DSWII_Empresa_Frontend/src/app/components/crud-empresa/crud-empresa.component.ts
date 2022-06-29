@@ -15,16 +15,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class CrudEmpresaComponent implements OnInit{
 
-    filtro: string = "";
+  empresas: Empresa[] = [];
 
-    //
-   /* razonSocial:string="";
-    gerente:string="";
-    ruc:string="";
-    selDepartamento:string = "-1";
-    selProvincia:string = "-1";
-    selDistrito:number = -1;
-    selPais:number = -1;*/
+    filtro: string = "";
 
     //
     departamentos: string[] = [];
@@ -32,7 +25,7 @@ export class CrudEmpresaComponent implements OnInit{
     distritos: Ubigeo[] = [];
 
     //empresa y pais
-    empresas: Empresa[] = [];
+   
     paises: Pais[] = [];
 
     empresa: Empresa = { 
@@ -74,87 +67,87 @@ export class CrudEmpresaComponent implements OnInit{
       submitted = false;
 
     constructor(private empresaService:EmpresaService, private ubigeoService: UbigeoService, private paisService: PaisService){
-       this.ubigeoService.listaDepartamentos().subscribe(
+      this.paisService.listaPais().subscribe(
+        response => this.paises = response
+      ); 
+
+      this.ubigeoService.listaDepartamentos().subscribe(
             response  => this.departamentos = response
         );
-        this.paisService.listaPais().subscribe(
-          response => this.paises = response
-        ); 
+        
     }
 
-  /* cargaProvincia(){
-        this.ubigeoService.listaProvincias(this.selDepartamento).subscribe(
-
-            (x) => this.provincias = x
-
-        );
-        this.selProvincia = "-1";
-        this.distritos = [];
-        this.selDistrito = -1;
-    }*/
-
-    cargaProvincia(){  
-      console.log("departamento >>> " + this.empresa.ubigeo?.departamento);
-      
-      if (this.empresa.ubigeo?.departamento == ""){
-          this.provincias = [];
-      }else{
+    cargaProvincia(){
       this.ubigeoService.listaProvincias(this.empresa.ubigeo?.departamento).subscribe(
-       response => this.provincias= response
-  );
+        response =>  this.provincias= response
+      );
+  
+      this.empresa!.ubigeo!.provincia = "-1";
+      this.distritos = [];
+      this.empresa!.ubigeo!.idUbigeo = -1;
+  
   }
   
-  this.empresa!.ubigeo!.provincia = "";
-  this.distritos = [];
-  this.empresa!.ubigeo!.idUbigeo = -1;
+  cargaDistrito(){
+    this.ubigeoService.listaDistritos(this.empresa.ubigeo?.departamento, this.empresa.ubigeo?.provincia).subscribe(
+      response =>  this.distritos= response
+     );
   
+     this.empresa!.ubigeo!.idUbigeo = -1;
    }
 
-    /*cargaDistrito(){
-        this.ubigeoService.listaDistritos(this.selDepartamento, this.selProvincia).subscribe(
-            (x) => this.distritos = x
-        )
-        this.selDistrito = -1;
-    }*/
 
-    cargaDistrito(){
-      console.log("departamento >>> " + this.empresa.ubigeo?.departamento);
-      console.log("provincia >>> " + this.empresa.ubigeo?.provincia);
-     
-      if (this.empresa.ubigeo?.departamento == "" || this.empresa.ubigeo?.provincia== "" ){
-          this.distritos = [];
-      }else{
-      this.ubigeoService.listaDistritos(this.empresa.ubigeo?.departamento, this.empresa.ubigeo?.provincia).subscribe(
-       response => this.distritos= response
-    );
-    }
-    this.empresa!.ubigeo!.idUbigeo = -1;
-    }
 
 
     consulta(){
-        this.empresaService.consultaEmpresa(this.filtro == ""?"todos": this.filtro).subscribe(
+        this.empresaService.listaEmpresaRazon(this.filtro == ""?"todos": this.filtro).subscribe(
             (x)=> this.empresas = x
         )
     }
 
-    /*registra(){
-        this.submitted = true;
-    
-          if (this.formsRegistra.invalid){
-            return;
-          }
-    
-        this.empresaService.registraEmpresa(this.empresa).subscribe(
-          (x) => {
-            this.submitted = false;
-            alert(x.mensaje);
-            this.consulta();
+    registra() {
+      this.submitted = true;
+  
+      //finaliza el método si hay un error
+      if (this.formsRegistra.invalid) {
+        return;
+       }
+  
+      this.submitted = false;
+  
+      this.empresaService.registraEmpresa(this.empresa).subscribe(
+        (x) => {  
+          this.empresaService.listaEmpresaRazon(this.filtro == "" ? "todos" : this.filtro).subscribe(
+            (x) => this.empresas = x
+          );
+          this.submitted = false;
+          alert(x.mensaje);
         }
-        );
-      }*/
-
-      registra(){
+      );
+  
+      //limpiar los comobobox
+      this.distritos = [];
+      this.provincias = [];
+  
+      //limpiar los componentes del formulario a través de los ngModel
+  
+      this.empresa = {
+        idEmpresa:0,
+        razonSocial:"",
+        ruc:"",
+        gerente:"",
+        ubigeo:{
+          idUbigeo: -1,
+          departamento:"",
+          provincia:"",
+          distrito:"",
+        },
+        pais:{
+            idPais: -1
+          }
+      }
+    }
+     /*registra(){
         this.empresaService.registraEmpresa(this.empresa).subscribe(
           (x) => {
             document.getElementById("btn_reg_limpiar")?.click();
@@ -182,7 +175,7 @@ export class CrudEmpresaComponent implements OnInit{
             idPais: -1
           }
       }
-      }
+      }*/
 
       busca(aux:Empresa){
         this.empresa=aux;
@@ -216,7 +209,7 @@ export class CrudEmpresaComponent implements OnInit{
             document.getElementById("btn_act_limpiar")?.click();
             document.getElementById("btn_act_cerrar")?.click();
             alert(x.mensaje);
-            this.empresaService.consultaEmpresa(this.filtro==""?"todos":this.filtro).subscribe(
+            this.empresaService.listaEmpresaRazon(this.filtro==""?"todos":this.filtro).subscribe(
                     (x) => this.empresas = x
             );
           } 
@@ -248,7 +241,7 @@ export class CrudEmpresaComponent implements OnInit{
         this.empresaService.eliminaEmpresa(aux.idEmpresa).subscribe(
           (x) => {
             alert(x.mensaje);
-        this.empresaService.consultaEmpresa(this.filtro==""?"todos":this.filtro).subscribe(
+        this.empresaService.listaEmpresaRazon(this.filtro==""?"todos":this.filtro).subscribe(
           (x) => this.empresa = x
           );
         } 
