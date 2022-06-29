@@ -1,6 +1,6 @@
 
 <div class="container" >
-    <h5>Crud de Cliente</h5>
+    <h5>Crud de Empresa</h5>
 
     <div class="col-md-23" style="margin-top: 3%">
 
@@ -26,8 +26,8 @@
                             <tr>
                                 <th style="width: 5%">#</th>
                                 <th style="width: 30%">Razon Social</th>
-                                <th style="width: 10%">Ruc</th>
                                 <th style="width: 10%">Gerente</th>
+                                <th style="width: 10%">Ruc</th>
                                 <th style="width: 31%">Ubigeo</th>
                                 <th style="width: 31%">Pais</th>
                                 <th style="width: 7%"></th>
@@ -43,8 +43,10 @@
                                 <td>{{ aux.ruc }}</td>
                                 <td>{{ aux.ubigeo!.departamento }}- {{ aux.ubigeo!.provincia }} -{{ aux.ubigeo!.distrito }}</td>
                                 <td>{{ aux.pais!.nombre }}</td>
-                                <td><button type="button" style="width: 90px" class="btn btn-primary btn-sm" data-toggle='modal' data-target="#exampleModalEliminar">Eliminar</button></td>
-                                <td><button type="button" style="width: 90px" class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#idModalActualizar">Editar</button></td>
+                                <td><button type="button" style="width: 90px" class="btn btn-primary btn-sm"  (click)="elimina(aux)" >Eliminar</button></td>
+                                <td><button type="button" style="width: 90px" class="btn btn-primary btn-sm"
+                                    data-toggle="modal" data-target="#idModalActualizar"
+                                    (click)="busca(aux)">Editar</button></td>
                                 
                             </tr>
                         </tbody>
@@ -208,18 +210,28 @@
                                     <input formControlName="validaRazonSocial" type="text" class="form-control" name="nombres" id="nombres_act" [(ngModel)] ="empresa.razonSocial"/>
                                     <div *ngIf="submitted && formsActualiza.controls['validaRazonSocial'].errors" class="invalid">
                                         <ul>
-                                            <li>Los Nombres son obligatorio</li>    
-                                            <li>El campo nombres es de 3 a 30 caracteres</li>    
+                                            <li>La razon social es obligatorio</li>    
+                                            <li>El campo Razon social es de 3 a 30 caracteres</li>    
                                         </ul>
                                      </div> 
                                 </div>
                               
                                 <div class="col-lg-6">
-                                    <label for="dni_act">DNI</label>
-                                    <input formControlName="validaRuc" type="text" class="form-control" name="dni" id="dni_act" maxlength="8" [(ngModel)] ="empresa.ruc"/>
+                                    <label for="ruc_act">RUC</label>
+                                    <input formControlName="validaRuc" type="text" class="form-control" name="ruc" id="ruc_act" maxlength="11" [(ngModel)] ="empresa.ruc"/>
                                     <div *ngIf="submitted && formsActualiza.controls['validaRuc'].errors" class="invalid">
                                         <ul>
-                                            <li>El DNI es obligatorio</li>      
+                                            <li>El RUC es obligatorio</li>      
+                                        </ul>
+                                     </div> 
+                                </div>
+
+                                <div class="col-lg-5">
+                                    <label for="id_reg_dni">Gerente</label>
+                                    <input formControlName="validaGerente" [(ngModel)]="empresa.gerente" type="text" placeholder="Ingrese GErente" class="form-control" name="dni" id="id_reg_dni"/>
+                                    <div *ngIf="submitted && formsRegistra.controls['validaGerente'].errors" class="invalid">
+                                        <ul>
+                                            <li>El gerente es obligatorio</li>      
                                         </ul>
                                      </div> 
                                 </div>

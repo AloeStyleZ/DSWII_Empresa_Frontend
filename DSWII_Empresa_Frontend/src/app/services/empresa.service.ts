@@ -37,7 +37,7 @@ export class EmpresaService{
         return this.http.put(baseUrlCrudEmpresa+"/actualizaEmpresa", vj);
     }
     eliminaEmpresa(id : any): Observable<any>{
-        return this.http.delete(baseUrlCrudEmpresa + "/eliminaProveedor/"+ id);
+        return this.http.delete(baseUrlCrudEmpresa + "/eliminaEmpresa/"+ id);
      } 
 
 }

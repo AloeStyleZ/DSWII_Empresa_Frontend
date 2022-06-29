@@ -188,26 +188,9 @@ export class CrudEmpresaComponent implements OnInit{
       }
   
 
-      /*actualiza(){
-        this.submitted = true;
-    
-        if (this.formsActualiza.invalid){
-          return;
-        }
-        this.empresaService.actualizaEmpresa(this.empresa).subscribe(
-          (x) => {
-            this.submitted = false;
-            alert(x.mensaje);
-            this.consulta();
-        }
-        );
-      }*/
-
       actualiza(){
         this.empresaService.actualizaEmpresa(this.empresa).subscribe(
           (x) => {
-            document.getElementById("btn_act_limpiar")?.click();
-            document.getElementById("btn_act_cerrar")?.click();
             alert(x.mensaje);
             this.empresaService.listaEmpresaRazon(this.filtro==""?"todos":this.filtro).subscribe(
                     (x) => this.empresas = x
